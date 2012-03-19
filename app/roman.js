@@ -31,44 +31,44 @@ roman.model = (function () {
             });
             return result;
         },
-        safeToRoman: function (eingabe) {
-            var num = parseInt(eingabe, 10);
+        safeToRoman: function (input) {
+            var num = parseInt(input, 10);
             return isNaN(num) ? '???' : this.toRoman(num);
         }
     };
 }());
 
 roman.view = (function (jQuery) {
-    var Anzeige = function (eingabeFeld, ausgabeFeld) {
-        this.eingabeFeld = eingabeFeld;
-        this.ausgabeFeld = ausgabeFeld;
-        var anzeige = this;
+    var Display = function (inputField, outputField) {
+        this.inputField = inputField;
+        this.outputField = outputField;
+        var display = this;
 
-        eingabeFeld.keyup(function () {
-            anzeige.beiEingabe(anzeige.eingabeFeld.val()); 
+        inputField.keyup(function () {
+            display.onInput(display.inputField.val()); 
         });
     }; 
-    Anzeige.prototype.zeigeErgebnis = function (ergebnis) {
-        this.ausgabeFeld.text(ergebnis);
+    Display.prototype.showResults = function (result) {
+        this.outputField.text(result);
     };
-    Anzeige.prototype.beiEingabe = function () {};
+    Display.prototype.onInput = function () {};
 
     return {
-        neueAnzeige: function (eingabeFeld, ausgabeFeld) {
-            return new Anzeige(eingabeFeld, ausgabeFeld);
+        newDisplay: function (inputField, outputField) {
+            return new Display(inputField, outputField);
         }
     };
 }(jQuery));
 
 roman.presenter = (function (model, view) {
     return {
-        init: function (anzeige) {
-            anzeige.beiEingabe = function (eingabe) {
-                anzeige.zeigeErgebnis(model.safeToRoman(eingabe));
+        init: function (display) {
+            display.onInput = function (input) {
+                display.showResults(model.safeToRoman(input));
             };            
         },
-        start: function (eingabeFeld, ausgabeFeld) {
-            this.init(view.neueAnzeige(eingabeFeld, ausgabeFeld));
+        start: function (inputField, outputField) {
+            this.init(view.newDisplay(inputField, outputField));
         }
     };
 }(roman.model, roman.view));

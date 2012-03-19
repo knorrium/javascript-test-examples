@@ -1,5 +1,5 @@
-describe('Konvertierung (model)', function() {
-    it('wandelt einfache Zahlen um', function() {
+describe('Conversion (model)', function() {
+    it('converts decimal numbers into single roman numbers', function() {
       expect(roman.model.toRoman(1)).toEqual('I');
       expect(roman.model.toRoman(2)).toEqual('II');
       expect(roman.model.toRoman(10)).toEqual('X');
@@ -8,63 +8,63 @@ describe('Konvertierung (model)', function() {
       expect(roman.model.toRoman(500)).toEqual('D');
       expect(roman.model.toRoman(2000)).toEqual('MM');
     });
-    it('wandelt kombinierte Zahlen um', function() {
+    it('converts decimal numbers into combined roman numbers', function() {
       expect(roman.model.toRoman(6)).toEqual('VI');
       expect(roman.model.toRoman(12)).toEqual('XII');
       expect(roman.model.toRoman(2010)).toEqual('MMX');
       expect(roman.model.toRoman(150)).toEqual('CL');
     });
-    it('wandelt Zahlen nach Substraktionsregel um', function() {
+    it('converts numbers after substraction', function() {
       expect(roman.model.toRoman(4)).toEqual('IV');
       expect(roman.model.toRoman(9)).toEqual('IX');
       expect(roman.model.toRoman(900)).toEqual('CM');
     });
-    it('und ist dabei nicht streng', function() {
+    it('and converts strings', function() {
       expect(roman.model.safeToRoman('4')).toEqual('IV');
       expect(roman.model.safeToRoman('9')).toEqual('IX');
       expect(roman.model.safeToRoman('foo')).toEqual('???');
     });
 });
 
-describe('Anzeige römischer Zahlen', function () {
-    var anzeige, eingabe, ausgabe;
+describe('Display of roman numerals', function () {
+    var display, input, output;
 
     beforeEach(function() {
-        eingabe = $("<input id='eingabe' type='text'/>");
-        ausgabe = $("<span id='ausgabe'>???</span>");
-        anzeige = new roman.view.neueAnzeige(eingabe, ausgabe);
+        input = $("<input id='input' type='text'/>");
+        output = $("<span id='output'>???</span>");
+        display = new roman.view.newDisplay(input, output);
     });
 
-    describe('Die Anzeige', function() {
-        it('soll bei Eingabe in das Feld benachrichtigen', function() {
-            spyOn(anzeige, 'beiEingabe');
-            eingabe.val('foo').trigger('keyup');
-            expect(anzeige.beiEingabe).toHaveBeenCalledWith('foo');
+    describe('The display', function() {
+        it('should be changed when the user enters a value in the field', function() {
+            spyOn(display, 'onInput');
+            input.val('foo').trigger('keyup');
+            expect(display.onInput).toHaveBeenCalledWith('foo');
         });
-        it('soll das Ergebnis anzeigen', function() {
-            anzeige.zeigeErgebnis('bar');
-            expect(ausgabe.text()).toEqual('bar');
+        it('should display the results', function() {
+            display.showResults('bar');
+            expect(output.text()).toEqual('bar');
         });
     });
 });
 
-describe('Interaktion', function () {
-    var anzeige;
+describe('Interaction', function () {
+    var display;
 
     beforeEach(function() {
-        anzeige = { zeigeErgebnis: function() {} };
-        spyOn(anzeige, 'zeigeErgebnis');
-        roman.presenter.init(anzeige);
+        display = { showResults: function() {} };
+        spyOn(display, 'showResults');
+        roman.presenter.init(display);
     });
 
-    it('Wenn der Benutzer Zahlen eingibt, wird die römische Variante angezeigt', function() {
-        anzeige.beiEingabe('42');
-        expect(anzeige.zeigeErgebnis).toHaveBeenCalledWith('XLII');
+    it('displays the roman version of the number entered by the user', function() {
+        display.onInput('42');
+        expect(display.showResults).toHaveBeenCalledWith('XLII');
     });
 
-    it('Wenn der Benutzer Buchstaben eingibt, werden Fragezeichen angezeigt', function() {
-        anzeige.beiEingabe('foo');
-        expect(anzeige.zeigeErgebnis).toHaveBeenCalledWith('???');
+    it('displays question marks when the user enters text', function() {
+        display.onInput('foo');
+        expect(display.showResults).toHaveBeenCalledWith('???');
     });
 });
 

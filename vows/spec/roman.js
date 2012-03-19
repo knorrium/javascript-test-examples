@@ -27,26 +27,26 @@ var vows = require('vows'),
         return result;
     };
 
-    vows.describe('Konverter').addBatch({
-        'wandelt dezimale in einfache römische Zahlen um': {
+    vows.describe('Converter').addBatch({
+        'converts decimal numbers into single roman numbers': {
             topic: { toRoman: toRoman },
-            '1 wird zu I': check(1, 'I'),
-            '2 wird zu II': check(2, 'II'),
-            '3 wird zu III': check(3, 'III'),
-            '5 wird zu V': check(5, 'V'),
-            '10 wird zu X': check(10, 'X'),
+            '1 becomes I': check(1, 'I'),
+            '2 becomes II': check(2, 'II'),
+            '3 becomes III': check(3, 'III'),
+            '5 becomes V': check(5, 'V'),
+            '10 becomes X': check(10, 'X'),
         },
-        'wandelt dezimale in kombinierte römische Zahlen um': {
+        'converts decimal numbers into combined roman numbers': {
             topic: { toRoman: toRoman },
-            '6 wird zu VI': check(6, 'VI'),
-            '4 wird zu IV': check(4, 'IV'),
-            '8 wird zu VIII': check(8, 'VIII'),
-            '9 wird zu IX': check(9, 'IX'),
-            '14 wird zu XIV': check(14, 'XIV'),
-            '23 wird zu XXIII': check(23, 'XXIII'),
-            '42 wird zu XLII': check(42, 'XLII'),
-            '99 wird zu XCIX': check(99, 'XCIX'),
-            '100 wird zu C': check(100, 'C'),
+            '6 becomes VI': check(6, 'VI'),
+            '4 becomes IV': check(4, 'IV'),
+            '8 becomes VIII': check(8, 'VIII'),
+            '9 becomes IX': check(9, 'IX'),
+            '14 becomes XIV': check(14, 'XIV'),
+            '23 becomes XXIII': check(23, 'XXIII'),
+            '42 becomes XLII': check(42, 'XLII'),
+            '99 becomes XCIX': check(99, 'XCIX'),
+            '100 becomes C': check(100, 'C'),
         }
 }).export(module);
 
